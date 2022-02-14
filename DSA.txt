@@ -1,0 +1,259 @@
+Notes on DSA
+
+-> Full Binary Tree:            Binary tree in which every node has either zero or two children. (Number of internal nodes is one less than
+                                             the number of leaves in the tree.)
+-> Complete Binary Tree: Binary Tree in which every level is filled except possibly the last level and in the last level elements are 
+                                            present as left as possible.
+-> Perfect binary tree:      Binary tree in which all levels are completely filled.
+
+-> Some number n:       n&(-n) = largest power of two which divides n
+
+____________________________________________________________________________________
+->Procedure Insertion Sort (a[], n):
+    for i=1 to n-1
+	j=i-1
+	while(j>=0 && a[j]>a[i])
+		a[j+1] = a[j]
+		j--
+	a[j+1] = a[i]
+____________________________________________________________________________________
+->Procedure power(a,n)
+	ans=1
+	while(n>0)
+		if(n&1)	ans = ans*a
+		a = a*a
+		n>>1
+	return ans
+______________________________________________________________________________________
+Procedure swap(int &a, int &b)	// a=12, b=15
+{
+	a = a+b;		//a=27
+	b = a-b;		//b=12
+	a = a-b;		//a=15
+}
+
+// Large Factorial_________________________________________________________________________
+string Solution::Large_Factorial(int A) {
+    vector<int> ans(200,0);
+    ans[ans.size()-1] = 1;
+    for(int i=2; i<=A; i++)
+    {
+        int carry=0;
+        for(int j=ans.size()-1; j>=0; j--)
+        {
+            int temp = ans[j]*i+carry;
+            ans[j] = temp%10;
+            carry = temp/10;
+        }
+    }
+    int j;
+    for(j=0; j<ans.size(); ++j)
+        if(ans[j] != 0)
+            break;
+            
+    string Ans;
+    for(; j<ans.size(); j++)
+        Ans.push_back(ans[j]+'0');
+    return Ans;
+}
+
+// Maximum Sum Subarray_____________________________________________________________________
+Procedure maxSumSubarray(int a[], int size)    // Kadane's Algorithm
+	current_max = 0, max = -infinity
+	for i=1 to size
+		current_max = current_max + a[i]
+		max = current_max > max ? current_max : max
+		current_max = current_max < 0 ? 0 : current_max    // If current_max is negative, set it to zero.
+	return max
+
+// Printing K largest number______________________________________________________________________
+	Bubble k times: O( n*k )
+
+	Temporary array: O( (n-k)*k )
+
+	Sorting: O(n*log(n))
+
+	Max heap: O( n + k*log(n) )
+
+	Order Statistics: O(n)
+
+	Use min heap instead of temporary array: O( k + (n-k)*log(k) )
+
+	Quick Sort partition: O(n) (average) [worst: O(n^2)]
+
+// Finding maximum sum triplet (Ai<Aj<Ak && i<j<k)_______________________________________________________
+Approach 1:
+	Find every triplet and update the max_sum accordingly.
+Approach 2: // Indexing from 0 to n-1
+	For each element from 1 to n-2,
+		- compute left_max just smaller than A[i],
+		- compute right_max
+		update max_sum
+	return max_sum;
+Approach 3:
+	Similar to Approach 2, but maintain sorted array for left subarray to get an element just 
+	smaller than A[i],
+	precompute maximum suffix array from right and get the maximum element from the right side.
+	update max_sum
+	return max_sum
+
+// Bit tricks________________________________________________________________________________
+48 == 0011 0000
+-48 == 1101 0000
+
+x & (x-1) = 0010 0000  // Clear the lowest set bit.
+x & ~(x-1) = 0001 0000 // Gives the lowest set bit ( maximum power of
+                                           // two which divides x)
+~(x-1) == -x in decimal
+
+
+_____________________________________InOrder Tree Traversal____________________________
+void preOrder(Node *root)  //____________Iterative_____________
+{
+    stack<Node*> s;
+    Node *t = root;
+    s.push(root);
+    while(!s.empty())
+    {
+        t = s.top();
+        while(t)
+        {
+            cout<<t->data<<" ";
+            t = t->left;
+            if(t)
+                s.push(t);
+        }
+        while(!s.empty() && s.top()->right == NULL)
+            s.pop();
+        if(!s.empty())
+        {
+            t = s.top()->right;
+            s.pop();
+            s.push(t);
+        }
+    }
+}
+
+void preOrder(Node *root) //____________Recursive_____________
+{
+        if(root != NULL)
+        {
+            cout<<root->data<<" ";
+            preOrder(root->left);
+            preOrder(root->right);
+        }
+    }
+
+
+void rotate(vector<int>& nums, int k) {//_____________Rotate array__________
+/*        k %= nums.size();
+        reverse(nums.begin(), nums.end());
+        reverse(nums.begin()+k, nums.end());
+        reverse(nums.begin(), nums.begin()+k);*/
+        int l=0, r=0;
+        for(int counter=0; counter<nums.size(); counter++)
+        {
+            l = (l+k)%nums.size();
+            if(l == r)
+            {    
+                r++;
+                l = r;
+            }
+            else
+                swap(nums[l], nums[r]);
+        }
+    }
+};
+
+Your input
+[1,2,3,4,5,6,7]
+3
+Output
+[5,6,7,1,2,3,4]
+Expected
+[5,6,7,1,2,3,4]
+
+_________________________________________________________________________
+GIT______________________________________________________________________
+configuration
+>>git config --global user.name "<your name>"
+>>git config --global user.email "<your e-mail>"
+
+Cloning
+>>git clone <URL>
+
+command to list the remote repositories
+>>git remote
+
+command to get the current status of your branch and untracked files.
+>>git status
+
+tell git to track the file
+>>git add <file.name>
+
+commit the chanes to local git repository
+>>git commit -m "First example"
+
+push to remote repo
+>>git push
+
+track all files
+>>git add .         or        >>git add *
+
+track all .txt files
+>>git add *.txt
+
+push commits to "origin" remote repoitory
+>>git push origin master
+
+creating a new branch
+>>git branch <New Branch>
+
+switch to branch
+>>git checkout <Branch Name>
+
+show local branches:        >>git branch
+show local and remote branches:              >>git branch -a
+
+push the branch to the remote repository
+>>git push --set-upstream origin <Branch Name>
+
+switching to master branch
+>>git checkout master
+
+merging a branch into another
+(here merging Branch_Name to master)
+
+>>git checkout master
+>>git merge Branch_Name
+
+delete the local branch
+>>git branch -d <Branch Name>
+
+delete the remote branch
+>>git push origin --delete <Branch Name>
+
+______________________________________________________________________________________
+>> fgets() function in C
+     fgets( *string_where_read_output_will_be_stored, max_size,  stream)
+     stops reading when max_size characters are read or '\0' (null character) or '\n' is read.
+______________________________________________________________________________________
+
+>> Find maximum sum from k corner elements (pick from both sides, interviewbit)
+N: arrray size, B: number of corner elements to take
+
+Two approaches:
+1. Create a sum array, such that each element o sum array contains the sum of given array upto that place
+    iterate over sum array B+1 times to sequentially scan for largest element
+    print largest
+
+2. take sum of first B elements of array
+    iterate the given array B times and scan for largest sum
+
+
+
+
+
+
+
+
