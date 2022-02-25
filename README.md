@@ -1,3 +1,3 @@
 # DSA
 
-contains problems and a few concepts.
+## Contains problems and a few concepts.
