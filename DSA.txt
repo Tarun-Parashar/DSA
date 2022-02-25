@@ -403,7 +403,15 @@ int minimumDeviation(vector<int>& nums) {
         return ans;
     }
 _______________________________________________________________________________________________
+>> Clone a graph
+make a hash map.
+store all mapping of oroginal graph to the clone graph there
+call clone function with this map and starting vertex.
 
+in this function, create new node, map it to starting vertex, and store this pair in the map
+check if neighbour node is existing in the map, if yes, add its copy
+if not, call the function with this as arguement
+________________________________________________________________________________________________
 
 
 
