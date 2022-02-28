@@ -405,14 +405,51 @@ int minimumDeviation(vector<int>& nums) {
 _______________________________________________________________________________________________
 >> Clone a graph
 make a hash map.
-store all mapping of oroginal graph to the clone graph there
+store all mapping of original graph to the clone graph there
 call clone function with this map and starting vertex.
 
 in this function, create new node, map it to starting vertex, and store this pair in the map
 check if neighbour node is existing in the map, if yes, add its copy
 if not, call the function with this as arguement
 ________________________________________________________________________________________________
+>> Maximum width of a binary tree
+use BFS
+push the root in a queue
+(each element of the queue will contain one pointer to treenode and position number of that node)
+at each level, the queue will contain the nodes of only that level
+keep track of the maximum size so far
+find the size of queue
+pop until there is no element of this level left in the queue.. also push children of each node altogether
+number the position of each newly inserted node in such a way that the signed integer overflow doesn't occur
 
+
+
+int widthOfBinaryTree(TreeNode* root) {
+if(!root)
+            return 0;
+        
+        queue<pair<TreeNode*, long>> q;
+        q.push({root, 0});
+        int ans = 1;
+        
+        while(!q.empty())
+        {
+            long count = q.size(), start = q.front().second, end = q.back().second;
+            ans = ans < end - start + 1 ? end - start + 1 : ans;
+            for(long i=0; i<count; i++)
+            {
+                pair<TreeNode*, long> front = q.front();
+                q.pop();
+                long id = front.second - start;
+                
+                if(front.first->left)
+                    q.push({front.first->left, 2*id + 1});
+                if(front.first->right)
+                    q.push({front.first->right, 2*id + 2});
+            }
+        }
+        return ans;
+    }
 
 
 
