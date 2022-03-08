@@ -87,7 +87,7 @@ Approach 1:
 Approach 2: // Indexing from 0 to n-1
 	For each element from 1 to n-2,
 		- compute left_max just smaller than A[i],
-		- compute right_max
+		- compute right_max larger than A[i],
 		update max_sum
 	return max_sum;
 Approach 3:
@@ -450,6 +450,36 @@ if(!root)
         }
         return ans;
     }
+
+__________________________________________________________________________________________________________
+>> Count the number of set bits from 0 to n
+	if x/2 = y
+	then number of set bits in x is either equal to that of y or one more.
+	if x is even then num1s(x) = num1s(y)
+	if  x is odd then num1s(x) = num1s(y) + 1
+
+vector<int> countBits(int n) {
+        vector<int> ans(n+1);
+        ans[0] = 0;
+        for(int i=1; i<=n; i++)
+            ans[i] = ans[i>>1] + i%2;
+        return ans;
+}
+
+Another approach
+solve(n)
+{
+int x = largestPowerOfTwoTilln(n);
+int setBitsTill2raisex = (1 << (x-1)) * x;
+int setBitsInMSBAfter2raisex = (n - (1 << x) + 1);
+int rest = solve(n - (1<<x));
+
+return setBitsTill2raisex  + setBitsInMSBAfter2raisex + rest;
+}
+________________________________________________________________________________________________________________
+
+
+
 
 
 
